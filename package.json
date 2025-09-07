@@ -1,4 +1,5 @@
 {
+  "_note": "Deploy access link: https://twelve-factor-app.onrender.com/api/products",
   "name": "12-factor-app",
   "version": "1.0.0",
   "description": "",
