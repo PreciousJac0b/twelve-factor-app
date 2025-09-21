@@ -10,7 +10,7 @@ dotenv.config();
 const app: Application = express();
 
 const allowedOrigins = [
-  'http://localhost:3000',            
+  'http://localhost:5173',            
   'https://time-zone-app.vercel.app/'
 ];
 
