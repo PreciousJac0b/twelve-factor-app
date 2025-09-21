@@ -1,4 +1,4 @@
-import {getProductResponse} from "../types/product";
+import { getProductResponse } from "../types/product";
 import { Product, IProduct } from "../models/Product";
 
 export class ProductService {
@@ -18,8 +18,11 @@ export class ProductService {
     };
   }
 
-  static async getSingleProduct(): Promise<getProductResponse> {
-    const product = await Product.findOne({}).lean<IProduct>();
+  static async getSingleProduct(timeZone: string): Promise<getProductResponse> {
+    if (!timeZone) {
+      timeZone = 'Africa/Lagos';
+    }
+    const product = await Product.findOne({});
 
     if (!product) {
       return {
@@ -27,10 +30,11 @@ export class ProductService {
         message: 'No product found',
       };
     }
+    const json = product.toJSON(<any>{ timeZone });
     return {
       success: true,
       message: 'Single product',
-      data: [product],
+      data: [json],
     };
   }
 
@@ -50,5 +54,10 @@ export class ProductService {
       message: 'Product created successfully',
       data: [savedProduct],
     };
+  }
+
+  static async testDate(): Promise<void> {
+    const nowUTC = new Date();
+    console.log(nowUTC.toISOString())
   }
 }

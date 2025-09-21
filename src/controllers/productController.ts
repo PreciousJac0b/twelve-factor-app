@@ -15,9 +15,10 @@ export class ProductController {
     }
   }
 
-  static async getSingleProduct(_: Request, res: Response): Promise<void> {
+  static async getSingleProduct(req: Request, res: Response): Promise<void> {
     try {
-      const result = await ProductService.getSingleProduct();
+      const timeZone = req.query.timeZone as string || '';
+      const result = await ProductService.getSingleProduct(timeZone);
       res.status(result.success ? 200 : 404).json(result);
     } catch (error) {
       res.status(500).json({
@@ -41,12 +42,27 @@ export class ProductController {
       const result = await ProductService.createProduct(productData);
 
       res.status(result.success ? 201 : 400).json(result);
-      
+
     } catch (error) {
       res.status(500).json({
         success: false,
         message: 'Internal server error',
       });
     }
-}
+  }
+
+  static async testDate(_: Request, res: Response): Promise<void> {
+    try {
+      await ProductService.testDate();
+      res.status(200).json({
+        success: true,
+        message: 'Date tested successfully',
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+      });
+    }
+  }
 }
