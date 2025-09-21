@@ -11,7 +11,7 @@ const app: Application = express();
 
 const allowedOrigins = [
   'http://localhost:5173',            
-  'https://time-zone-app.vercel.app/'
+  'https://time-zone-app.vercel.app'
 ];
 
 app.use(
