@@ -1,15 +1,36 @@
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import productRoutes from './routes/productRoute';
 import taskRoutes from './routes/taskRoute';
 
 dotenv.config();
 
 const app: Application = express();
+
+const allowedOrigins = [
+  'http://localhost:3000',            
+  'https://time-zone-app.vercel.app/'
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/tasks', taskRoutes);
+
+
 
 const PORT: number = parseInt(process.env.PORT || '', 10) || 3000;
 const MONGODB_URI: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase';
