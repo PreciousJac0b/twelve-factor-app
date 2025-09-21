@@ -5,7 +5,7 @@ export interface ITask extends Document {
   tag: string;
   title: string;
   details: string;
-  createdAt: Date;          
+  createdAt: Date;
   timeDue: Date;
 }
 
@@ -22,6 +22,12 @@ taskSchema.set('toJSON', {
     const tz = options?.timeZone;
     if (tz && ret.createdAt) {
       ret.createdAt = DateTime.fromJSDate(ret.createdAt).setZone(tz).toISO();
+    }
+
+    if (tz && ret.timeDue) {
+      ret.timeDue = DateTime.fromJSDate(ret.timeDue)
+        .setZone(tz)
+        .toISO();
     }
     return ret;
   },
